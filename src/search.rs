@@ -14,7 +14,13 @@ pub fn search(config: &Config) -> Result<Vec<Match>, String> {
         .lines()
         .enumerate()
         .filter_map(|(i, line)| {
-            if line.contains(&config.pattern) {
+            let matches = if config.ignore_case {
+                line.to_lowercase().contains(&config.pattern.to_lowercase())
+            } else {
+                line.contains(&config.pattern)
+            };
+
+            if matches {
                 Some(Match {
                     line_number: i,
                     line: line.to_string(),

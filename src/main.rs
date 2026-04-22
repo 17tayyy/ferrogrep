@@ -1,6 +1,8 @@
 mod config;
+mod output;
 mod search;
 use config::Config;
+use output::print_match;
 use search::search;
 use std::env;
 
@@ -17,7 +19,11 @@ fn main() {
         std::process::exit(1);
     });
 
-    for m in &matches {
-        println!("{}: {}", m.line_number + 1, m.line);
+    if config.count_only {
+        println!("Total matches: {}", matches.len())
+    } else {
+        for m in &matches {
+            print_match(m, &config.pattern);
+        }
     }
 }
