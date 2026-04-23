@@ -1,19 +1,18 @@
 use crate::config::Config;
-use std::fs;
+use std::io::BufRead;
 
 pub struct Match {
     pub line_number: usize,
     pub line: String,
 }
 
-pub fn search(config: &Config) -> Result<Vec<Match>, String> {
-    let content =
-        fs::read_to_string(&config.file_path).map_err(|e| format!("Error leyendo archivo: {e}"))?;
+pub fn search_reader<R: BufRead>(reader: R, config: &Config) -> Result<Vec<Match>, String> {
+    let content = reader.lines();
 
     let results = content
-        .lines()
         .enumerate()
         .filter_map(|(i, line)| {
+            let line = line.ok()?;
             let matches = if config.ignore_case {
                 line.to_lowercase().contains(&config.pattern.to_lowercase())
             } else {

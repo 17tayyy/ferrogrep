@@ -1,7 +1,7 @@
 #[derive(Debug)]
 pub struct Config {
     pub pattern: String,
-    pub file_path: String,
+    pub file_path: Option<String>,
     pub count_only: bool,  // flag --count
     pub ignore_case: bool, // flag -i
 }
@@ -31,10 +31,7 @@ impl Config {
             .cloned()
             .ok_or("Usage: ferrogrep <pattern> <file>".to_string())?;
 
-        let file_path = positional
-            .get(1)
-            .cloned()
-            .ok_or("Usage: ferrogrep <pattern> <file>".to_string())?;
+        let file_path = positional.get(1).cloned();
 
         Ok(Config {
             count_only,
