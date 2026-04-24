@@ -36,6 +36,6 @@ cargo build --release
 
 ## Roadmap
 
-- [ ] Recursive directory search
+- [x] Recursive directory search
 - [ ] Regex support
 - [ ] Benchmarks vs native grep

@@ -4,6 +4,7 @@ pub struct Config {
     pub file_path: Option<String>,
     pub count_only: bool,  // flag --count
     pub ignore_case: bool, // flag -i
+    pub recursive: bool,
 }
 
 impl Config {
@@ -15,12 +16,15 @@ impl Config {
         let mut positional: Vec<String> = Vec::new();
         let mut count_only = false;
         let mut ignore_case = false;
+        let mut recursive = false;
 
         for arg in args[1..].iter() {
             if arg.starts_with("--count") {
                 count_only = true;
             } else if arg.starts_with("-i") {
                 ignore_case = true;
+            } else if arg.starts_with("--recursive") {
+                recursive = true;
             } else {
                 positional.push(arg.clone());
             }
@@ -38,6 +42,7 @@ impl Config {
             ignore_case,
             pattern,
             file_path,
+            recursive,
         })
     }
 }
